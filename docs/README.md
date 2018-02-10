@@ -132,7 +132,7 @@ public class TestBean {
 }
 ```
 TestController.java
-```
+```java
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -156,7 +156,7 @@ public class TestController {
 如果多处存在相同名称参数，优先级高的会覆盖优先级低的
 
 ### 获取json请求，并绑定到java对象
-```
+```java
 package com.example.demo;
 
 import org.springframework.web.bind.annotation.*;
