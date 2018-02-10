@@ -1,3 +1,11 @@
+# Spring Boot 备忘录
+
+作者：听风
+
+博客：https://michaelzx.github.io/
+
+
+
 # 快速构建工程
 
 使用官方提供的`Spring Initializr`，来快速生成Spring boot应用骨架
@@ -277,3 +285,139 @@ public class TestController {
     <td>任何非原子类型</td>
     <td>指定递归验证关联的对象；如用户对象中有个地址对象属性，如果想在验证用户对象时一起验证地址对象的话，在地址对象上加@Valid注解即可级联验证</td></tr>
 </table>
+
+### 校验示例
+
+Book.java
+
+```java
+import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
+
+@Data
+public class Book {
+    @NotNull(message = "课本ID，不能为空")
+    private Integer bookId;
+    @NotBlank(message = "课本名称，不能为空")
+    private String bookName;
+}
+```
+
+Stu.java
+
+```java
+import lombok.Data;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.util.List;
+
+@Data
+public class Stu {
+
+    @NotNull(message = "学号，不能为空")
+    private Integer stuId;
+
+
+    @NotNull(message = "姓名，不能为空")
+    private String stuName;
+
+    @NotEmpty(message = "课本列表，不能为空")
+    @Valid //有嵌套对象的验证时，必须加上这个，不然会失效
+    private List<Book> bookList;
+}
+```
+
+TestController.java
+
+```java
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping(value = "/user")
+public class TestController {
+
+    @PostMapping(value = "/test")
+    public String test(@RequestBody @Validated Stu stu, BindingResult bindingResult) throws JsonProcessingException {
+        if (bindingResult.hasErrors()) {
+            return bindingResult.getFieldError().getDefaultMessage();
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        return "提交成功" + mapper.writeValueAsString(stu);
+    }
+}
+```
+
+## 302重定向
+
+```java
+@GetMapping(value = "redirect")
+public void redirect(HttpServletResponse response) throws IOException {
+    response.sendRedirect("http://www.baidu.com");
+}
+```
+
+## 控制器之间跳转
+```java
+@GetMapping(value = "redirect2")
+public String redirect2() {
+    return "redirect:/otherController/otherAction?param1=1&param2=1";
+}
+```
+
+## 自定义错误路由
+ErrorConfig.java
+```java
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.web.servlet.ErrorPage;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+
+@Configuration
+public class ErrorConfig {
+    @Bean
+    public EmbeddedServletContainerCustomizer containerCustomizer(){
+        return container -> {
+            container.addErrorPages(new ErrorPage(HttpStatus.BAD_REQUEST,"/400"));
+            container.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR,"/500"));
+            container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND,"/404"));
+            container.addErrorPages(new ErrorPage(HttpStatus.UNAUTHORIZED,"/401"));
+        };
+    }
+}
+```
+ErrorCtrl.java
+```java
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@RestController
+public class ErrorCtrl {
+    @RequestMapping(value = "/500")
+    public String serverError(){
+        return "500";
+    }
+    @RequestMapping(value = "/400")
+    public String badRequest(){
+        return "400";
+    }
+    @RequestMapping(value = "/404")
+    public String notFound(){
+        return "404";
+    }
+}
+```
+
+
+
