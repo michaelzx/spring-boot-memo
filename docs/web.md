@@ -52,7 +52,13 @@
 
 ## 获取请求数据
 
-### 获取url参数
+### 获取常规请求参数
+
+> 这里指的是Query String和Form中的参数
+
+- Form参数只有在`POST`请求中才会获取
+- 如果在`POST`请求中，Query String和Form，存在相同的参数，则最后会取Form的参数
+
 
 例如：获取以下请求中的userName参数
 
@@ -77,11 +83,7 @@ public class TestController {
     }
 }
 ```
-> 和请求方式无关
 
-### 获取Form参数
-
-> 和上面的一样，因为是form参数，所以请求方式，必须是POST
 
 ### 获取url中的path变量
 
