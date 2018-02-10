@@ -1,5 +1,7 @@
 # Spring Boot 备忘录
 
+> 2017.12.11，开始0基础实践 Spring Boot，在此梳理知识点备忘
+
 作者：听风
 
 博客：https://michaelzx.github.io/
@@ -419,39 +421,95 @@ public class ErrorCtrl {
 }
 ```
 
-# data层
+
+
+# Service层
+
+!> 一般情况下，业务逻辑都写在Service中，控制器中尽量不要出现
+
+```java
+import org.springframework.stereotype.Service;
+
+@Service
+public class MyService {
+    public void serviceMethod(String text) {
+        System.out.println(text);
+    }
+}
+
+```
+`@Service`，是一个特殊的`@Component`，表明这个类是一个Service，被它注解的类，将会在启动时被检测到
+
+如要在控制器中使用，可以通过`@Autowired`来进行自动装配
+
+```java
+@RestController
+@RequestMapping(value = "/stu")
+public class TestController {
+    @Autowired
+    private MyService myService;
+
+    @PostMapping(value = "/test")
+    public void test(){
+        myService.serviceMethod("test");
+    }
+}
+
+```
+
+# Data层
+
+> 一开始的时候，是使用了一段时间JPA，感觉到后面业务复杂的时候，不够灵活。
+>
+> 后来尝试了Mybits，感觉很棒，非常灵活和使用，而且还有现成的分页插件可以使用。
+>
+> 虽然需要自己手写一些sql，但是自己写的sql，用着安心。有问题也知道去哪里找。
+
 ## mybatis的集成及使用
+?> 待完善
 ## 分页插件的使用
+?> 待完善
 ## 嵌套对象的查询
+?> 待完善
 
 
 
 # web+server+data
-
-
+?> 待完善
 # lombok
-
+?> 待完善
 # swagger
-
+?> 待完善
 # jwt
+?> 待完善
 
 # shiro
+?> 待完善
 
 # 异步执行
+?> 待完善
 
 # 定时任务
+?> 待完善
 
 # EasyPoi
+?> 待完善
 
 ## 导出
+?> 待完善
 
 ## 导入
+?> 待完善
 
 # 图片处理
+?> 待完善
 
 # 其他FAQ
+?> 待完善
 
 ## 如何统一json输出时的时间格式
+?> 待完善
+## @Component是什么作用？
 
 
 
