@@ -419,5 +419,32 @@ public class ErrorCtrl {
 }
 ```
 
+# 服务层
+
+# 数据层
+## mybatis的集成及使用
+## 分页插件的使用
+## 嵌套对象的查询
+
+# lombok
+
+# swagger
+
+# jwt
+
+# shiro
+
+# 异步执行
+
+# 定时任务
+
+# Excel导入导出
+
+# 其他FAQ
+
+## 如何统一json输出时的时间格式
+
+
+
 
 
