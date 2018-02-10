@@ -1,10 +1,3 @@
----
-title: Spring Boot 备忘录
-date: 2018-02-09 13:45:23
-tags:
-  - SpringBoot
----
-
 # 快速构建工程
 
 使用官方提供的`Spring Initializr`，来快速生成Spring boot应用骨架
