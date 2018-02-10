@@ -13,10 +13,42 @@
   <script>
     window.$docsify = {
       name: '',
-      repo: ''
+      repo: '',
+      // 完整配置参数
+      search: {
+        maxAge: 86400000, // 过期时间，单位毫秒，默认一天
+        paths: [], // or 'auto'
+        // 支持本地化
+        placeholder: {
+          '/': '搜索：请输入关键词'
+        },
+        // 支持本地化
+        noData: {
+          '/': '找不到结果'
+        },
+
+        // 搜索标题的最大程级, 1 - 6
+        depth: 6
+      },
+      plugins: [
+        function (hook) {
+          var footer = [
+            '<hr/>',
+            '<footer>',
+            '<span><a href="https://michaelzx.github.io/" target="_blank">听风</a> &copy;2018.</span>',
+            '<span>Proudly published with <a href="https://github.com/QingWei-Li/docsify" target="_blank">docsify</a>.</span>',
+            '</footer>'
+          ].join('')
+
+          hook.afterEach(function (html) {
+            return html + footer
+          })
+        }
+      ]
     }
   </script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/search.js"></script>
   <script src="//unpkg.com/prismjs@1.11.0/components/prism-java.min.js"></script>
 </body>
 </html>
