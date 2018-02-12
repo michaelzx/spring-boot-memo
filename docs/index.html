@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
   <link rel="stylesheet" href="//unpkg.com/docsify-copy-code/styles.css">
   <script src="//unpkg.com/docsify-copy-code/index.js"></script>
+  <script src="//unpkg.com/docsify-edit-on-github@1.0.1/index.js"></script>
 </head>
 <body>
   <div id="app"></div>
@@ -19,7 +20,7 @@
       // subMaxLevel: 1,
       auto2top: true,
       // coverpage: true,
-      subMaxLevel: 2,
+      subMaxLevel: 3,
       loadSidebar: true,
       // 完整配置参数
       search: {
@@ -39,6 +40,7 @@
       },
       plugins: [
         window.DocsifyCopyCodePlugin.init(),
+        EditOnGithubPlugin.create("https://github.com/michaelzx/spring-boot-memo/tree/master/docs/", "", "Edit on github"),
         function (hook) {
           var footer = [
             '<hr/>',
