@@ -405,6 +405,41 @@ public class PageKit<T> implements Serializable {
 
 另外，需要搭配`resultMap`来使用。
 
+
+## xml备忘
+
+## 创建
+
+```java
+int insert(@Param("user") User user);
+```
+```xml
+
+    <insert id="insert">
+        INSERT INTO user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="user.id != null"> id, </if>
+            <if test="user.username != null"> username, </if>
+            <if test="user.password != null"> password, </if>
+            <if test="user.timeCreate != null"> time_create, </if>
+            <if test="user.timeExpired != null"> time_expired, </if>
+            <if test="user.nickName != null"> nick_name, </if>
+            <if test="user.adminRemark != null"> admin_remark, </if>
+            <if test="user.type != null"> type, </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="user.id != null"> #{user.id}, </if>
+            <if test="user.username != null"> #{user.username}, </if>
+            <if test="user.password != null"> #{user.password}, </if>
+            <if test="user.timeCreate != null"> #{user.timeCreate}, </if>
+            <if test="user.timeExpired != null"> #{user.timeExpired}, </if>
+            <if test="user.nickName != null"> #{user.nickName}, </if>
+            <if test="user.adminRemark != null"> #{user.adminRemark}, </if>
+            <if test="user.type != null"> #{user.type}, </if>
+        </trim>
+    </insert>
+```
 ## 参考文章
 
 > http://www.spring4all.com/article/145
