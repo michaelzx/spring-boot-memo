@@ -43,7 +43,7 @@ pom.xml
 <dependency>
     <groupId>mysql</groupId>
     <artifactId>mysql-connector-java</artifactId>
-    <version>5.1.21</version>
+    <!-- <version>5.1.21</version> -->
 </dependency>
 <dependency>
     <groupId>org.mybatis.spring.boot</groupId>
