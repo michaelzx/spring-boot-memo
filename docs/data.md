@@ -51,8 +51,10 @@ pom.xml
     <version>1.3.1</version>
 </dependency>
 ```
-> ! mysql-connector-java，不需要加版本号。
+!> mysql-connector-java，不需要加版本号。
+
 > 被网上文章误导了，看了下官方示例，是不加版本号的。
+
 > 我之前加了，莫名其妙的会连不上本地数据库。
 
 ### 添加配置
