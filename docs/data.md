@@ -51,6 +51,9 @@ pom.xml
     <version>1.3.1</version>
 </dependency>
 ```
+> ! mysql-connector-java，不需要加版本号。
+> 被网上文章误导了，看了下官方示例，是不加版本号的。
+> 我之前加了，莫名其妙的会连不上本地数据库。
 
 ### 添加配置
 
@@ -414,31 +417,30 @@ public class PageKit<T> implements Serializable {
 int insert(@Param("user") User user);
 ```
 ```xml
-
-    <insert id="insert">
-        INSERT INTO user
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="user.id != null"> id, </if>
-            <if test="user.username != null"> username, </if>
-            <if test="user.password != null"> password, </if>
-            <if test="user.timeCreate != null"> time_create, </if>
-            <if test="user.timeExpired != null"> time_expired, </if>
-            <if test="user.nickName != null"> nick_name, </if>
-            <if test="user.adminRemark != null"> admin_remark, </if>
-            <if test="user.type != null"> type, </if>
-        </trim>
-        VALUES
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="user.id != null"> #{user.id}, </if>
-            <if test="user.username != null"> #{user.username}, </if>
-            <if test="user.password != null"> #{user.password}, </if>
-            <if test="user.timeCreate != null"> #{user.timeCreate}, </if>
-            <if test="user.timeExpired != null"> #{user.timeExpired}, </if>
-            <if test="user.nickName != null"> #{user.nickName}, </if>
-            <if test="user.adminRemark != null"> #{user.adminRemark}, </if>
-            <if test="user.type != null"> #{user.type}, </if>
-        </trim>
-    </insert>
+<insert id="insert">
+    INSERT INTO user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="user.id != null"> id, </if>
+        <if test="user.username != null"> username, </if>
+        <if test="user.password != null"> password, </if>
+        <if test="user.timeCreate != null"> time_create, </if>
+        <if test="user.timeExpired != null"> time_expired, </if>
+        <if test="user.nickName != null"> nick_name, </if>
+        <if test="user.adminRemark != null"> admin_remark, </if>
+        <if test="user.type != null"> type, </if>
+    </trim>
+    VALUES
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="user.id != null"> #{user.id}, </if>
+        <if test="user.username != null"> #{user.username}, </if>
+        <if test="user.password != null"> #{user.password}, </if>
+        <if test="user.timeCreate != null"> #{user.timeCreate}, </if>
+        <if test="user.timeExpired != null"> #{user.timeExpired}, </if>
+        <if test="user.nickName != null"> #{user.nickName}, </if>
+        <if test="user.adminRemark != null"> #{user.adminRemark}, </if>
+        <if test="user.type != null"> #{user.type}, </if>
+    </trim>
+</insert>
 ```
 ## 参考文章
 
