@@ -404,3 +404,103 @@ public class ErrorCtrl {
     }
 }
 ```
+
+## 添加拦截器
+
+### 第一步：首先需要添加一个拦截器类
+
+```java
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@Component
+public class UrlPrintInterceptor implements HandlerInterceptor {
+
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println(request.getRequestURI());
+        return true;
+    }
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+
+    }
+}
+```
+
+3个需要实现的方法，就不细说了，百度一大堆。请自行了解。
+
+这里是一个很简单的拦截器，当请求进来的时候，把请求的uri打印出来。
+
+### 第二部：添加一个WebMvc的配置类
+
+```java
+import cn.cnvp.fw.saas.mch.web.interceptor.UrlInterceptor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class MvcConfig implements WebMvcConfigurer {
+    @Bean
+    public HandlerInterceptor getUrlInterceptor(){
+        return new UrlInterceptor();
+    }
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(getUrlInterceptor())
+                .addPathPatterns("/**");
+    }
+}
+```
+
+添加注册，并指定拦截的路径。大功告成。
+
+
+
+## 添加静态资源的访问
+
+```java
+import cn.cnvp.hx.saas.tmp1.Application;
+import org.springframework.boot.system.ApplicationHome;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.io.IOException;
+
+@Configuration
+public class MvcConfig implements WebMvcConfigurer {
+	//获取运行环境目录
+    @Bean
+    public static String getJarDir() {
+        ApplicationHome home = new ApplicationHome(Application.class);
+        System.out.println(home.getDir());
+        try {
+            return home.getDir().getCanonicalPath();
+        } catch (IOException e) {
+            return null;
+        }
+    }
+    //注意，一定要加上file:作为前缀。
+    //addResourceLocations还可以添加其他另外的资源定位方式
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        System.out.println(getJarDir());
+        registry.addResourceHandler("/**").addResourceLocations("file:"+getJarDir()+"/");
+        registry.addResourceHandler("/uploads/**").addResourceLocations("file:"+getJarDir()+"/upload");
+    }
+
+}
+```
