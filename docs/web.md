@@ -469,7 +469,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
 
 
-## 添加静态资源的访问
+## jar包外静态资源的访问
 
 ```java
 import cn.cnvp.hx.saas.tmp1.Application;
